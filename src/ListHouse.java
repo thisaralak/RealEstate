@@ -1,5 +1,7 @@
+import java.awt.List;
 
-public class ListHouse {
+
+public class ListHouse implements Listable{
 	
 	//list ADT
 	
@@ -23,6 +25,15 @@ public class ListHouse {
 		this.bedRooms = bedRooms;
 	}
 	
+	public Listable copy(){
+		ListHouse objListHouse = new ListHouse(lotNumber,firstName,lastName,price,squareFeet,bedRooms);
+		return objListHouse;
+	}
+	
+	public int compareTo(Listable tempListHouse){
+		ListHouse objListHouse = (ListHouse)tempListHouse;
+		return (this.lotNumber-objListHouse.lotNumber);
+	}
 	//getters and setters
 	
 	public int getLotNumber() {
