@@ -23,6 +23,7 @@ public class RealEstate {
 	private JTextField txtSquareFt;
 	private JTextField txtNoOfBedRooms;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -146,5 +147,9 @@ public class RealEstate {
 		lblNumberOfBedrooms.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNumberOfBedrooms.setBounds(9, 234, 200, 39);
 		frame.getContentPane().add(lblNumberOfBedrooms);
+		
+		JLabel lblNewLabel = new JLabel("StatusLabel");
+		lblNewLabel.setBounds(9, 11, 46, 14);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }
