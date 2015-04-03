@@ -6,8 +6,8 @@ public class SortedList extends List{
 	}
 	
 	public SortedList(){
-		super(100);
+		super(10);
 	}
-	
+
 	
 }
