@@ -45,7 +45,7 @@ public class HouseFile {
 		int lotNumber=0;	
 		String firstName="unknown";
 		String lastName="unknown";
-		double price=0;
+		int price=0;
 		int squareFeet=0;
 		int bedRooms=0;
 		
@@ -57,7 +57,7 @@ public class HouseFile {
 		bedRooms=Integer.parseInt(inFile.readLine());
 		inString=inFile.readLine();
 		
-		ListHouse objListHouse = new ListHouse(lotNumber,firstName,lastName,price,squareFeet,bedRooms);
+		ListHouse objListHouse =  new ListHouse(lastName, firstName, lotNumber, price,squareFeet, bedRooms);
 		return objListHouse;
 	}
 	

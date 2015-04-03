@@ -1,4 +1,4 @@
-import java.awt.List;
+
 
 
 public class ListHouse implements Listable{
@@ -8,25 +8,24 @@ public class ListHouse implements Listable{
 	private int lotNumber;	
 	private String firstName;
 	private String lastName;
-	private double price;
+	private int price;
 	private int squareFeet;
 	private int bedRooms;
 	
 	//constructor
 	
-	public ListHouse(int lotNumber, String firstName, String lastName,
-			double price, int squareFeet, int bedRooms) {
-		super();
-		this.lotNumber = lotNumber;
-		this.firstName = firstName;
+	public ListHouse(String lastName, String firstName, int lotNumber,int price, int squareFeet, int bedRooms )
+	{
 		this.lastName = lastName;
+		this.firstName = firstName;
+		this.lotNumber = lotNumber;
 		this.price = price;
 		this.squareFeet = squareFeet;
 		this.bedRooms = bedRooms;
 	}
 	
 	public Listable copy(){
-		ListHouse objListHouse = new ListHouse(lotNumber,firstName,lastName,price,squareFeet,bedRooms);
+		ListHouse objListHouse = new ListHouse(lastName, firstName, lotNumber, price,squareFeet, bedRooms);
 		return objListHouse;
 	}
 	
@@ -54,10 +53,10 @@ public class ListHouse implements Listable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public int getSquareFeet() {

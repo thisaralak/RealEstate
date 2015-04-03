@@ -16,13 +16,13 @@ import java.awt.event.ActionEvent;
 public class RealEstate {
 
 	private JFrame frame;
-	private JTextField txtLotNumber;
-	private JTextField txtFirstName;
-	private JTextField txtLastName;
-	private JTextField txtPrice;
-	private JTextField txtSquareFt;
-	private JTextField txtNoOfBedRooms;
-
+	private static JTextField txtLotNumber;
+	private static JTextField txtFirstName;
+	private static JTextField txtLastName;
+	private static JTextField txtPrice;
+	private static JTextField txtSquareFt;
+	private static JTextField txtNoOfBedRooms;
+	private static JLabel lblStatus; 
 	
 	/**
 	 * Launch the application.
@@ -47,6 +47,9 @@ public class RealEstate {
 		initialize();
 	}
 
+	ListHouse house;
+	private static SortedList list = new SortedList();
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -58,27 +61,112 @@ public class RealEstate {
 		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
+				list.reset();
+				if (list.lengthIs() == 0)
+				clearHouse();
+				else
+				{
+				house = (ListHouse)list.getNextItem();
+				showHouse(house);
+				}
+				lblStatus.setText("List reset"); 
 			}
 		});
 		btnReset.setBounds(25, 274, 180, 47);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try
+				{
+					house = getHouse();
+					if (list.isThere(house))
+						lblStatus.setText("Lot number already in use");
+					else
+					{
+						list.insert(house);
+						lblStatus.setText("House added to list");
+					}
+				}
+				catch (NumberFormatException e)
+				{				
+					lblStatus.setText("Number? " + e.getMessage());
+				} 
+			}
+		});
 		btnAdd.setBounds(25, 322, 180, 49);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clearHouse();
+				lblStatus.setText("Successfully cleared");
+			}
+		});
 		btnClear.setBounds(25, 372, 180, 47);
 		
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (list.lengthIs() == 0)
+					lblStatus.setText("list is empty!");
+				else
+				{
+					house = (ListHouse)list.getNextItem();
+					showHouse(house);
+					lblStatus.setText("Next house displayed");
+				}
 			}
 		});
 		btnNext.setBounds(215, 274, 180, 47);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try
+				{
+					house = getHouse();
+					if (list.isThere(house))
+					{
+						list.delete(house);
+						lblStatus.setText("House deleted");
+					}
+					else
+						lblStatus.setText("Lot number not on list");
+					}
+				catch (NumberFormatException e)
+				{				
+					lblStatus.setText("Number? " + e.getMessage());
+				} 
+			}
+		});
 		btnDelete.setBounds(215, 323, 180, 47);
 		
 		JButton btnFind = new JButton("Find");
+		btnFind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int lotNumber;
+				try
+				{
+					lotNumber = Integer.parseInt(txtLotNumber.getText());
+					house = new ListHouse("", "", lotNumber, 0, 0, 0);
+					if (list.isThere(house))
+					{
+						house = (ListHouse)list.retrieve(house);
+						showHouse(house);
+						lblStatus.setText("House available");
+					}
+					else
+						lblStatus.setText("House not available");
+				}
+				catch (NumberFormatException e)
+				{
+					lblStatus.setText("Number? " + e.getMessage());
+				}			
+			}
+		});
+		
 		btnFind.setBounds(215, 372, 180, 47);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(btnReset);
@@ -148,8 +236,47 @@ public class RealEstate {
 		lblNumberOfBedrooms.setBounds(9, 234, 200, 39);
 		frame.getContentPane().add(lblNumberOfBedrooms);
 		
-		JLabel lblNewLabel = new JLabel("StatusLabel");
-		lblNewLabel.setBounds(9, 11, 46, 14);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lblStatus = new JLabel("StatusLabel");
+		lblStatus.setBounds(9, 11, 46, 14);
+		frame.getContentPane().add(lblStatus);		
+	}
+	
+	private static void showHouse(ListHouse house)
+	{
+		txtLotNumber.setText(Integer.toString(house.getLotNumber()));
+		txtFirstName.setText(house.getFirstName());
+		txtLastName.setText(house.getLastName());
+		txtPrice.setText(Integer.toString(house.getPrice()));
+		txtSquareFt.setText(Integer.toString(house.getSquareFeet()));
+		txtNoOfBedRooms.setText(Integer.toString(house.getBedRooms()));
+	}
+	
+	private static ListHouse getHouse()
+	{
+		String lastName;
+		String firstName;
+		int lotNumber;
+		int price;
+		int squareFeet;
+		int bedRooms;
+		lotNumber = Integer.parseInt(txtLotNumber.getText());
+		firstName = txtFirstName.getText();
+		lastName = txtLastName.getText();
+		price = Integer.parseInt(txtPrice.getText());
+		squareFeet = Integer.parseInt(txtSquareFt.getText());
+		bedRooms = Integer.parseInt(txtNoOfBedRooms.getText());
+		ListHouse house = new ListHouse(lastName, firstName, lotNumber, price,
+		squareFeet, bedRooms);
+		return house;
+	}
+	
+	private static void clearHouse()
+	{
+		txtLotNumber.setText("");
+		txtFirstName.setText("");
+		txtLastName.setText("");
+		txtPrice.setText("");
+		txtSquareFt.setText("");
+		txtNoOfBedRooms.setText("");
 	}
 }
